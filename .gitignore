@@ -3,6 +3,6 @@ server/node_modules
 
 server/package-lock.json
 client/package-lock.json
-server/.env.
+.env
 
 .DS_Store
