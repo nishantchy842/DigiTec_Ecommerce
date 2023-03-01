@@ -4,6 +4,8 @@ const app = express()
 const { Schema } = mongoose;
 const PORT = 8000
 const cors = require('cors')
+const authRoute = require('./router/authRouter')
+
 
 app.use(express.json())
 app.use(cors())
@@ -21,7 +23,7 @@ const connectDb = async () => {
 }
 
 connectDb()
-const userSchema = new Schema({
+const usersSchema = new Schema({
   title:{type:String},
   price: {type:Number},
   Quntity: {type:Number},
@@ -30,11 +32,12 @@ const userSchema = new Schema({
   categories: {type:String},
   description: {type:String}
 })
-const Users = mongoose.model('Users', userSchema);
+//schema
+const Products = mongoose.model('products', usersSchema);
 
 app.post('/item', async (req, res) => {
   try {
-    const data = await Users.create(req.body)
+    const data = await Products.create(req.body)
     console.log(data)
     if (data) {
       res.send('User Registered Successfully')
@@ -45,6 +48,14 @@ app.post('/item', async (req, res) => {
     console.log("err" + err)
   }
 })
+
+//routes
+app.use('/api/v1/auth',authRoute)
+
+
+app.get("/", (req, res) => {
+  res.send("<h1>Welcome to ecommerce app</h1>");
+});
 
 
 app.listen(PORT, () => {
