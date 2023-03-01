@@ -4,7 +4,14 @@ const app = express()
 const { Schema } = mongoose;
 const PORT = 8000
 const cors = require('cors')
+const dotenv = require('dotenv')
+
+//import all routes
 const authRoute = require('./router/authRouter')
+
+//configure env
+dotenv.config();
+
 
 
 app.use(express.json())
@@ -58,6 +65,6 @@ app.get("/", (req, res) => {
 });
 
 
-app.listen(PORT, () => {
-  console.log(`Server running is port: ${PORT}`)
+app.listen(process.env.PORT, () => {
+  console.log(`Server running is port: ${process.env.PORT}`)
 })
