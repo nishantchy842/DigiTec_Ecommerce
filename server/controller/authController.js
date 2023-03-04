@@ -4,12 +4,12 @@
  
 exports.registerController = async(req,res) =>{
     try{
-        const {name,email,password,phone,address,answer}=req.body
+        const {name,email,password,phone,address}=req.body
         console.log(req.body)
 
         //validations
     if (!name) {
-        return res.send({ error: "Name is Required" });
+        return res.send({ message: "Name is Required" });
       }
       if (!email) {
         return res.send({ message: "Email is Required" });
@@ -22,9 +22,6 @@ exports.registerController = async(req,res) =>{
       }
       if (!address) {
         return res.send({ message: "Address is Required" });
-      }
-      if (!answer) {
-        return res.send({ message: "Answer is Required" });
       }
       //check user
       const exisitingUser = await users.findOne({ email });
@@ -44,7 +41,6 @@ exports.registerController = async(req,res) =>{
         phone,
         address,
         password: hashedPassword,
-        answer,
       }).save();
   
       res.status(201).send({
@@ -116,4 +112,9 @@ exports.loginController = async(req,res)=>{
       error
     })
   }
+}
+
+//test controller
+exports.testController = (req,res)=>{
+  res.send("protected route")
 }
