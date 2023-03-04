@@ -16,7 +16,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post('http://localhost:8000/api/v1/auth/register',  {
+      const res = await axios.post('http://localhost:8000/api/v1/auth/register', {
         name,
         email,
         password,
@@ -38,9 +38,9 @@ const Register = () => {
 
   return (
     <Layout title={"Register"}>
-      <div className=' h-full w-auto bg-red-900 flex justify-center align-middle'>
+      <div className=' h-screen w-auto bg-[#42d1f5] flex justify-center align-middle p-10'>
         <form onSubmit={handleSubmit}>
-          <h4 className="title">REGISTER FORM</h4>
+        <h1 className="title mb-8 ">REGISTER FORM</h1>
           <div className="mb-3">
             <input
               type="text"
@@ -87,7 +87,7 @@ const Register = () => {
               required
             />
           </div>
-                 <button type="submit" className="btn btn-primary">
+          <button type="submit" className='bg-cyan-500 hover:bg-cyan-600 p-2'>
             REGISTER
           </button>
         </form>
