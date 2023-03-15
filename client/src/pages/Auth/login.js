@@ -21,10 +21,10 @@ try{
   if (res && res.data.success) {
     navigate("/");
   } else {
-    alert.error(res.data.message);
+    alert(res.data.message);
   }
 }catch(error){
-  console.log(error)
+  alert(error)
 }
    
 

@@ -15,6 +15,10 @@ import {
 import {AiOutlineMenu} from 'react-icons/ai'
 import { useNavigate } from "react-router-dom";
 import DigiTec from "../../images/DigiTech.png"
+import { useSelector, useDispatch } from "react-redux";
+import { setLoginDetails } from '../../Redux/reducer/userSlice';
+import {FiLogIn} from 'react-icons/fi'
+
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -24,6 +28,8 @@ const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const {isLoggedIn }= useSelector(state=>state.user)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -38,6 +44,8 @@ const Header = () => {
 
   const handleCloseUserMenu = (e) => {
     if(e.target.textContent === 'Logout'){
+      debugger;
+      dispatch(setLoginDetails());
       navigate("/login")
     }
     else if(e.target.textContent === 'Register'){
@@ -140,11 +148,21 @@ const Header = () => {
         </Box>
 
         <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-            </IconButton>
-          </Tooltip>
+        <Tooltip title={isLoggedIn ? "Open settings" : "Login"}>
+        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+          {isLoggedIn ? (
+            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          ) : (
+            <FiLogIn
+              onClick={() =>
+                dispatch(setLoginDetails())
+
+                // navigate("/login")
+              }
+            />
+          )}
+        </IconButton>
+      </Tooltip>
           <Menu
             sx={{ mt: '45px' }}
             id="menu-appbar"

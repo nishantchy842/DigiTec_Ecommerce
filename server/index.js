@@ -8,6 +8,7 @@ const dotenv = require('dotenv')
 
 //import all routes
 const authRoute = require('./router/authRouter')
+const createProduct = require('./router/productRouter')
 
 //configure env
 dotenv.config();
@@ -30,34 +31,10 @@ const connectDb = async () => {
 }
 
 connectDb()
-const usersSchema = new Schema({
-  title:{type:String},
-  price: {type:Number},
-  Quntity: {type:Number},
-  brand: {type:String},
-  model: {type:String},
-  categories: {type:String},
-  description: {type:String}
-})
-//schema
-const Products = mongoose.model('products', usersSchema);
-
-app.post('/item', async (req, res) => {
-  try {
-    const data = await Products.create(req.body)
-    console.log(data)
-    if (data) {
-      res.send('User Registered Successfully')
-    } else {
-      res.send('Regsitration failed')
-    }
-  } catch (err) {
-    console.log("err" + err)
-  }
-})
 
 //routes
 app.use('/api/v1/auth',authRoute)
+app.use('/api/v1/product',createProduct)
 
 
 app.get("/", (req, res) => {

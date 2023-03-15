@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import Layout from '../../component/layout/layout'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import {useDispatch,useSelector} from 'react-redux'
+import { setLoginDetails } from '../../Redux/reducer/userSlice'
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -11,6 +13,10 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+
+
 
 
   const handleSubmit = async (e) => {
@@ -24,6 +30,7 @@ const Register = () => {
         address,
       })
       if (res && res.data.success) {
+        dispatch(setLoginDetails());
         navigate("/login");
       } else {
         alert.error(res.data.message);

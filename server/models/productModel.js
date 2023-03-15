@@ -2,71 +2,40 @@ const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema(
     {
-        title: {
-            type: String,
-            trim: true,
-            required: [true, 'please enter the product name'],
+        name: {
+          type: String,
+          required: true,
         },
-        price: {
-            type: Number,
-            required: [true, 'Please enter price'],
-            default: 0.0,
-        },
-        Quntity: {
-            type: Number,
-            required: true,
-        },
-        brand: {
-            type: String,
-        },
-        model: {
-            type: String,
-        },
-        categories: {
-            type: String,
+        slug: {
+          type: String,
+          required: true,
         },
         description: {
-            type: String,
+          type: String,
+          required: true,
         },
-        ratings: {
-            type: Number,
-            default: 0,
+        price: {
+          type: Number,
+          required: true,
         },
-        images: [
-            {
-                public_id: {
-                    type: String,
-                    required: true,
-                },
-                url: {
-                    type: String,
-                    required: true,
-                },
-            }
-        ],
-        numOfReviews: {
-            type: String,
-            default: 0,
+        category: {
+          type:String,
+          required: true,
         },
-        reviews: [{
-            name: {
-                type: String,
-                required: true,
-            },
-            rating: {
-                type: Number,
-                required: true,
-            },
-            comment: {
-                type: String,
-                required: true,
-            }
-        }],
-        createdAt: {
-            type: Date,
-            default: Date.now
-        }
-    })
-const products = mongoose.model('products', productSchema)
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        photo: {
+          data: Buffer,
+          contentType: String,
+        },
+        shipping: {
+          type: Boolean,
+        },
+      },
+      { timestamps: true }
+    );
+const products = mongoose.model('Products', productSchema)
 
 module.exports = products
