@@ -27,6 +27,13 @@ const DefaulRoutes = () => {
     return (
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/card' element={<Cards /> } />
+        <Route path="/product" element={<Product />} />
+        <Route path='*' element={<PageNotFound />} />
+
       </Routes>
     );
   };
@@ -37,8 +44,6 @@ const DefaulRoutes = () => {
       <Route path='/' element={<Homepage />} />
       <Route path='/contact' element={<Contact />} />
       <Route path='/card' element={<Cards /> } />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
       <Route path="/product" element={<Product />} />
       <Route path='*' element={<PageNotFound />} />
     
@@ -51,6 +56,8 @@ const DefaulRoutes = () => {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path='/product' element={<AddItems /> } />
+        <Route path='*' element={<PageNotFound />} />
+
       </Routes>
     );
   };

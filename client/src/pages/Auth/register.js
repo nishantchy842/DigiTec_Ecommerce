@@ -30,7 +30,6 @@ const Register = () => {
         address,
       })
       if (res && res.data.success) {
-        dispatch(setLoginDetails());
         navigate("/login");
       } else {
         alert.error(res.data.message);

@@ -8,7 +8,7 @@ const Product = () => {
   return (
     <Layout>
       <p>I am product</p>
-      <p>{state.title}</p>
+      <p>{state.name}</p>
     </Layout>
   )
 }

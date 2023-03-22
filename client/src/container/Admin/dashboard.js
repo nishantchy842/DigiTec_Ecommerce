@@ -1,13 +1,14 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
+import Layout from '../../component/layout/layout';
 
 const Dashboard = () => {
     const navigation = useNavigate()
   return (
-    <div>
+    <Layout>
       <h1>Admin Dashboard</h1>
       <button onClick={()=>navigation('/product')}>Add Product</button>
-    </div>
+    </Layout>
   )
 }
 

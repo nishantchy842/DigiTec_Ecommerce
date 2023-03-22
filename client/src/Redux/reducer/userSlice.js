@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
-  userRole: 'admin',
+  userRole: '',
   isLoggedIn: false,
   token: '',
   id: ''
