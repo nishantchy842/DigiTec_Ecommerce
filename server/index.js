@@ -9,6 +9,7 @@ const dotenv = require('dotenv')
 //import all routes
 const authRoute = require('./router/authRouter')
 const createProduct = require('./router/productRouter')
+const createCategory = require('./router/categoryRoute')
 
 //configure env
 dotenv.config();
@@ -35,7 +36,7 @@ connectDb()
 //routes
 app.use('/api/v1/auth',authRoute)
 app.use('/api/v1/product',createProduct)
-
+app.use('/api/v1/category',createCategory)
 
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to ecommerce app</h1>");

@@ -10,6 +10,8 @@ import PageNotFound from '../pages/pageNotFound'
 import AddItems from '../container/Admin/addItems';
 import Cards from '../component/cards';
 import Product from '../pages/product';
+import CategoryForm from '../component/Form/categoryForm';
+import AddCategory from '../container/Admin/addCategory';
 
 
 
@@ -56,6 +58,7 @@ const DefaulRoutes = () => {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path='/product' element={<AddItems /> } />
+        <Route path='/category' element={<AddCategory /> } />
         <Route path='*' element={<PageNotFound />} />
 
       </Routes>

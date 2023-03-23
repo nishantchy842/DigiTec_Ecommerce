@@ -27,19 +27,21 @@ const AddItems = () => {
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
 
-  //get all category
-  // const getAllCategory = async () => {
-  //   try {
-  //     const { data } = await axios.get("/api/v1/category/get-category");
-  //     if (data?.success) {
-  //       setCategories(data?.category);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert.error("Something wwent wrong in getting catgeory");
-  //   }
-  // };
-
+  // get all category
+  const getAllCategory = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:8000/api/v1/category/category-list");
+      if (data?.sucess) {
+        setCategories(data?.category);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Something wwent wrong in getting catgeory");
+    }
+  };
+  useEffect(() => {
+    getAllCategory();
+  }, []);
 
   //create product function
   const handleCreate = async (e) => {
@@ -75,9 +77,9 @@ const AddItems = () => {
 
           <div className="col-md-9 mt-5">
             <h1 className="col-md-9 mb-10 text-center text-2xl font-serif font-semibold text-[#0e0f10] ">Create Product</h1>
-            <div className="m-1 border border-sky-500">
+            <div className="m-1 p-5">
               <Select
-                // bordered={false}
+                bordered={false}
                 placeholder="Select a category"
                 size="large"
                 // className="mb-3 "
@@ -85,11 +87,11 @@ const AddItems = () => {
                   setCategory(value);
                 }}
               >
-                {categories.map((c, id) => (
-                  <Option key={id} value={id}>
-                    {c}
-                  </Option>
-                ))}
+              {categories?.map((c) => (
+                <Option key={c._id} value={c._id}>
+                  {c.name}
+                </Option>
+              ))}
               </Select>
             </div>
             <div className="mb-3">

@@ -7,7 +7,8 @@ const Dashboard = () => {
   return (
     <Layout>
       <h1>Admin Dashboard</h1>
-      <button onClick={()=>navigation('/product')}>Add Product</button>
+      <button onClick={()=>navigation('/product')}>Add Product</button><br />
+      <button onClick={()=>navigation('/category')}>Add category</button>
     </Layout>
   )
 }
