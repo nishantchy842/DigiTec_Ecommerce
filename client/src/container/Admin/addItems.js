@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {  toast } from "react-toastify";
+
 
 import {
   Form,
@@ -11,7 +13,7 @@ import {
   InputNumber,
   Upload,
 } from 'antd';
-import { addProduct } from '../../Redux/reducer/adminSlice';
+import { addProduct } from '../../Redux/reducer/countSlice';
 
 const { Option } = Select;
 
@@ -30,13 +32,13 @@ const AddItems = () => {
   // get all category
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8000/api/v1/category/category-list");
+      const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/category/category-list`);
       if (data?.sucess) {
         setCategories(data?.category);
       }
     } catch (error) {
       console.log(error);
-      alert("Something wwent wrong in getting catgeory");
+      alert("Something went wrong in getting catgeory");
     }
   };
   useEffect(() => {
@@ -54,19 +56,20 @@ const AddItems = () => {
       productData.append("quantity", quantity);
       productData.append("photo", photo);
       productData.append("category", category);
+      debugger;
       const { data } = await axios.post(
-        "http://localhost:8000/api/v1/product/create-product",
+        `${process.env.REACT_APP_BASE_URL}/api/v1/product/create-product`,
         productData
       );
-      if (data?.success) {
-        alert.error(data?.message);
+      if (data?.sucess) {
+        toast.error(data?.message);
+        
       } else {
-        alert.success("Product Created Successfully");
-        navigate("/dashboard/admin/products");
+        toast("Product Created SSuccessfully");
       }
     } catch (error) {
       console.log(error);
-      alert.error("something went wrong");
+      toast.error("something went wrong");
     }
   };
 
@@ -87,11 +90,11 @@ const AddItems = () => {
                   setCategory(value);
                 }}
               >
-              {categories?.map((c) => (
-                <Option key={c._id} value={c._id}>
-                  {c.name}
-                </Option>
-              ))}
+                {categories?.map((c) => (
+                  <Option key={c._id} value={c._id}>
+                    {c.name}
+                  </Option>
+                ))}
               </Select>
             </div>
             <div className="mb-3">

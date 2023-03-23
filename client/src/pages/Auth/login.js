@@ -16,7 +16,7 @@ const Login = () => {
     console.log(password);
     console.log(email);
     try {
-      const res = await axios.post('http://localhost:8000/api/v1/auth/login', {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/login`, {
         email,
         password
       })

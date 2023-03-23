@@ -42,14 +42,14 @@ exports.getAllCategory = async (req,res)=>{
     try{
         const category = await categories.find({})
         res.status(200).send({
-            sucess:true,
+            success:true,
             message:'all categories list',
             category
         })
 
     }catch(error){
         res.status(500).send({
-            sucess:false,
+            success:false,
             error,
             message:'Error while getting all categories'
         })

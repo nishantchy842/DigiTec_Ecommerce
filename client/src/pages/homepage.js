@@ -5,8 +5,10 @@ import Cards from '../component/cards'
 const Homepage = () => {
   return (
     <Layout title={'DigiTec'}>
-      <h1>homepage</h1>
-      <Cards />
+      <h1 className='text-center'> image</h1>
+      <div className=''>
+        <Cards />
+      </div>
     </Layout>
   )
 }

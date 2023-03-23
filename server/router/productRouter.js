@@ -7,8 +7,8 @@ const { requireSignIn, isAdmin } = require('../middleware/authMiddleware')
 const router = express.Router()
 
 router.post('/create-product',
-requireSignIn,
-isAdmin,
+// requireSignIn,
+// isAdmin,
 formidable(),
 newProduct
 )
