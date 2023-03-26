@@ -21,7 +21,8 @@ import { FiLogIn } from 'react-icons/fi'
 
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const userPages = ['Home', 'Products', 'Categories'];
+const adminSide = ['Create Category', 'Create Product', 'Products', 'Orders'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
@@ -29,7 +30,7 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { isLoggedIn } = useSelector(state => state.user)
+  const { isLoggedIn, userRole } = useSelector(state => state.user)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -38,7 +39,11 @@ const Header = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (e) => {
+    console.log(e.target.textContent)
+    e.target.textContent==='Create Product' && navigate('/product')
+    e.target.textContent==='Create Category' && navigate('/category')
+   
     setAnchorElNav(null);
   };
 
@@ -105,11 +110,18 @@ const Header = () => {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
+                {userRole === "user" ?
+                  userPages.map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </MenuItem>
+                  )) :
+                  adminSide.map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </MenuItem>
+                  ))
+                }
               </Menu>
             </Box>
             <Typography
@@ -133,15 +145,27 @@ const Header = () => {
               </div>
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
+              {
+                userRole === "user" ?
+                  userPages.map((page) => (
+                    <Button
+                      key={page}
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: 'white', display: 'block' }}
+                    >
+                      {page}
+                    </Button>
+                  )) :
+                  adminSide.map((page) => (
+                    <Button
+                      key={page}
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: 'white', display: 'block' }}
+                    >
+                      {page}
+                    </Button>
+                  ))
+              }
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -152,7 +176,7 @@ const Header = () => {
                       <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                     </IconButton> :
                     <FiLogIn className='cursor-pointer'
-                    onClick={()=>navigate('/login')}
+                      onClick={() => navigate('/login')}
                     />
                 }
               </Tooltip>

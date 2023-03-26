@@ -21,13 +21,20 @@ const Login = () => {
         password
       })
       debugger;
-      if (res.data.user.role==0) {
+      if (res.data.user.role === 0) {
         dispatch(assignUserRole('user'))
-        dispatch(setLoginDetails())
+        dispatch(setLoginDetails({ id: res.data.user._id, token: res.data.token }))
         navigate("/")
-      } else if(res.data.user.role==1) {
+      } else if (res.data.user.role === 1) {
+        debugger;
         dispatch(assignUserRole('admin'))
-        dispatch(setLoginDetails())
+        dispatch(setLoginDetails({
+          id: res.data.user._id,
+          token: res.data.token,
+          name: res.data.user.name,
+          phone: res.data.user.phone,
+          email: res.data.user.email
+        }))
         navigate("/")
       }
     } catch (error) {
@@ -112,10 +119,10 @@ const Login = () => {
             </Button>
           </Form.Item>
           <p className='mt-[15px] text-[12px] text-center'>
-          Don't have an account? <Link to="/register" className='font-bold'>Register</Link> 
+            Don't have an account? <Link to="/register" className='font-bold'>Register</Link>
           </p>
         </Form>
-        
+
       </div>
     </Layout>
   )

@@ -1,12 +1,12 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../component/layout/layout'
 
 
 const Contact = () => {
   const [quotes, setQuotes] = useState([])
-   const date = new Date();
- 
-  const getQuotes = setInterval(() => {
+  const date = new Date();
+
+  const getQuotes = useEffect(() => {
     fetch('https://dummyjson.com/quotes/random')
       .then(function (response) {
         return response.json()
@@ -17,15 +17,19 @@ const Contact = () => {
       .catch((error) => {
         console.log(error)
       })
-  },1000 * 60 * 60)
+  },[])
 
   return (
     <Layout title={"Contact - feel free to contact"}>
-      <h1>Contact</h1>
-      <p>{quotes.quote}</p>
-      <p>{quotes.author}</p>
-      
-      
+    <h1 className='text-center font-extrabold stroke-indigo-300 text-5xl'>Contact</h1>
+      <div className=' min-h-[75vh] flex flex-col justify-center items-center'>
+        <div className=' h-[200px] w-[500px] text-center'>
+        <p>{quotes.quote}</p>
+        <p>{quotes.author}</p>
+        </div>
+      </div>
+
+
     </Layout>
   )
 }
