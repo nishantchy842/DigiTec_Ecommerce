@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 
 import {
-  Form,
-  Input,
-  Button,
   Select,
-  InputNumber,
-  Upload,
 } from 'antd';
-import { addProduct } from '../../Redux/reducer/countSlice';
+import Layout from '../../component/layout/layout';
 
 const { Option } = Select;
 
 
 const AddItems = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [categories, setCategories] = useState(['phone', 'laptop']);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -33,7 +27,7 @@ const AddItems = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/category/category-list`);
-      if (data?.sucess) {
+      if (data?.success) {
         setCategories(data?.category);
       }
     } catch (error) {
@@ -56,14 +50,14 @@ const AddItems = () => {
       productData.append("quantity", quantity);
       productData.append("photo", photo);
       productData.append("category", category);
-      debugger;
       const { data } = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/v1/product/create-product`,
         productData
       );
+      navigate("/products");
       if (data?.sucess) {
         toast.error(data?.message);
-        
+
       } else {
         toast("Product Created SSuccessfully");
       }
@@ -75,17 +69,15 @@ const AddItems = () => {
 
   return (
     <>
-      <div className="m-3 p-3 bg-slate-400 flex justify-center items-center">
-        <div className="grid grid-flow-col bg-orange-700 p-3 w-96 justify-center items-center" >
-
-          <div className="col-md-9 mt-5">
-            <h1 className="col-md-9 mb-10 text-center text-2xl font-serif font-semibold text-[#0e0f10] ">Create Product</h1>
-            <div className="m-1 p-5">
+      <Layout title="Digitec-Add product">
+        <div className="min-h-[80vh] flex justify-center items-center" >
+          <div className="bg-[#a2ded0] flex flex-col justify-center items-center w-[50%]">
+            <h1 className=" m-10 text-center text-2xl font-serif font-semibold text-[#0e0f10] ">Create Product</h1>
               <Select
                 bordered={false}
                 placeholder="Select a category"
                 size="large"
-                // className="mb-3 "
+                className=" placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"                
                 onChange={(value) => {
                   setCategory(value);
                 }}
@@ -96,20 +88,20 @@ const AddItems = () => {
                   </Option>
                 ))}
               </Select>
-            </div>
-            <div className="mb-3">
+            <div className="m-3">
               <label className="btn btn-outline-secondary col-md-12">
                 {photo ? photo.name : "Upload Photo"}
                 <input
                   type="file"
                   name="photo"
                   accept="image/*"
+                  className='placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
                   onChange={(e) => setPhoto(e.target.files[0])}
                   hidden
                 />
               </label>
             </div>
-            <div className="mb-3">
+            <div className="mb-3 ">
               {photo && (
                 <div className="text-center">
                   <img
@@ -122,12 +114,12 @@ const AddItems = () => {
                 </div>
               )}
             </div>
-            <div className="mb-3">
+            <div className="mb-3 ">
               <input
                 type="text"
                 value={name}
                 placeholder="write a name"
-                className="form-control"
+                className='placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 w-[20rem] pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -136,7 +128,7 @@ const AddItems = () => {
                 type="text"
                 value={description}
                 placeholder="write a description"
-                className="form-control"
+                className="form-control placeholder:italic placeholder:text-slate-400 block bg-white border w-[20rem] border-slate-300 rounded-md py-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
@@ -146,7 +138,7 @@ const AddItems = () => {
                 type="number"
                 value={price}
                 placeholder="write a Price"
-                className="form-control"
+                className="form-control placeholder:italic placeholder:text-slate-400 block bg-white border w-[20rem] border-slate-300 rounded-md py-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
                 onChange={(e) => setPrice(e.target.value)}
               />
             </div>
@@ -155,7 +147,7 @@ const AddItems = () => {
                 type="number"
                 value={quantity}
                 placeholder="write a quantity"
-                className="form-control"
+                className="form-control placeholder:italic placeholder:text-slate-400 block bg-white border w-[20rem] border-slate-300 rounded-md py-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
                 onChange={(e) => setQuantity(e.target.value)}
               />
             </div>
@@ -165,7 +157,7 @@ const AddItems = () => {
                 placeholder="Select Shipping "
                 size="large"
                 showSearch
-                className="form-select mb-3"
+                className="form-select mb-3 placeholder:italic placeholder:text-slate-400 block bg-white border w-[20rem] border-slate-300 rounded-md py-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
                 onChange={(value) => {
                   setShipping(value);
                 }}
@@ -181,7 +173,7 @@ const AddItems = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Layout>
     </>
   );
 };

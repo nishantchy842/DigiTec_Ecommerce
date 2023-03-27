@@ -22,7 +22,7 @@ import { FiLogIn } from 'react-icons/fi'
 
 
 const userPages = ['Home', 'Products', 'Categories'];
-const adminSide = ['Create Category', 'Create Product', 'Products', 'Orders'];
+const adminSide = ['Home','Create Category', 'Create Product', 'Products', 'Orders'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
@@ -43,7 +43,8 @@ const Header = () => {
     console.log(e.target.textContent)
     e.target.textContent==='Create Product' && navigate('/product')
     e.target.textContent==='Create Category' && navigate('/category')
-   
+    e.target.textContent==='Products' && navigate('/products')
+    e.target.textContent==='Home' && navigate('/')
     setAnchorElNav(null);
   };
 

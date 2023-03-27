@@ -12,6 +12,7 @@ import Cards from '../component/cards';
 import Product from '../pages/product';
 import CategoryForm from '../component/Form/categoryForm';
 import AddCategory from '../container/Admin/addCategory';
+import UpdateProduct from '../container/Admin/updateProduct';
 
 
 
@@ -46,7 +47,7 @@ const DefaulRoutes = () => {
       <Route path='/' element={<Homepage />} />
       <Route path='/contact' element={<Contact />} />
       <Route path='/card' element={<Cards /> } />
-      <Route path="/product" element={<Product />} />
+      <Route path="/product/:slug" element={<Product />} />
       <Route path='*' element={<PageNotFound />} />
     
       </Routes>
@@ -57,7 +58,9 @@ const DefaulRoutes = () => {
     return (
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path='/products' element={<Homepage />} />
         <Route path='/product' element={<AddItems /> } />
+        <Route path='/product/:slug' element={<UpdateProduct /> } />
         <Route path='/category' element={<AddCategory /> } />
         <Route path='*' element={<PageNotFound />} />
 

@@ -20,7 +20,6 @@ const Login = () => {
         email,
         password
       })
-      debugger;
       if (res.data.user.role === 0) {
         dispatch(assignUserRole('user'))
         dispatch(setLoginDetails({ id: res.data.user._id, token: res.data.token }))

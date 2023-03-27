@@ -1,7 +1,13 @@
 const express = require('express')
 const formidable = require('express-formidable');
 
-const { newProduct, getproductController, productPhotoController } = require('../controller/productController')
+const { 
+  newProduct, 
+  getproductController, 
+  productPhotoController, 
+  getSingleProduct, 
+  updateProduct, 
+  deleteProduct } = require('../controller/productController')
 const { requireSignIn, isAdmin } = require('../middleware/authMiddleware')
 
 const router = express.Router()
@@ -15,5 +21,15 @@ newProduct
 
 router.get('/product',getproductController)
 router.get('/product-photo/:pid',productPhotoController)
-
+router.get("/get-product/:slug", getSingleProduct);
+//update existing product
+router.put(
+    "/update-product/:pid",
+    // requireSignIn,
+    // isAdmin,
+    formidable(),
+    updateProduct
+  );
+//delete rproduct
+router.delete("/delete-product/:pid", deleteProduct);
 module.exports = router;
