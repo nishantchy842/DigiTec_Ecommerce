@@ -11,18 +11,21 @@ import {
   Button,
   Tooltip,
   MenuItem,
+  Autocomplete,
+  TextField,
 } from '@mui/material'
 import { AiOutlineMenu } from 'react-icons/ai'
 import { useNavigate } from "react-router-dom";
 import DigiTec from "../../images/DigiTech.png"
 import { useSelector, useDispatch } from "react-redux";
 import { assignUserRole, setLoginDetails } from '../../Redux/reducer/userSlice';
-import { FiLogIn } from 'react-icons/fi'
+import { FiLogIn, FiShoppingCart } from 'react-icons/fi'
+import { toast } from 'react-toastify';
 
 
 
 const userPages = ['Home', 'Products', 'Categories'];
-const adminSide = ['Home','Create Category', 'Create Product', 'Products', 'Orders'];
+const adminSide = ['Home', 'Create Category', 'Create Product', 'Products', 'Orders'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
@@ -31,6 +34,8 @@ const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { isLoggedIn, userRole } = useSelector(state => state.user)
+  const count = useSelector(state => state.addCart.count)
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -41,10 +46,10 @@ const Header = () => {
 
   const handleCloseNavMenu = (e) => {
     console.log(e.target.textContent)
-    e.target.textContent==='Create Product' && navigate('/product')
-    e.target.textContent==='Create Category' && navigate('/category')
-    e.target.textContent==='Products' && navigate('/products')
-    e.target.textContent==='Home' && navigate('/')
+    e.target.textContent === 'Create Product' && navigate('/product')
+    e.target.textContent === 'Create Category' && navigate('/category')
+    e.target.textContent === 'Products' && navigate('/products')
+    e.target.textContent === 'Home' && navigate('/')
     setAnchorElNav(null);
   };
 
@@ -52,6 +57,7 @@ const Header = () => {
     if (e.target.textContent === 'Logout') {
       dispatch(setLoginDetails());
       dispatch(assignUserRole(''))
+      toast.success("Logout successfull")
       navigate("/login")
     }
     setAnchorElUser(null);
@@ -80,7 +86,6 @@ const Header = () => {
                 <img src={DigiTec} alt="logo" />
               </div>
             </Typography>
-
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
@@ -145,6 +150,7 @@ const Header = () => {
                 <img src={DigiTec} alt="logo" />
               </div>
             </Typography>
+
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {
                 userRole === "user" ?
@@ -168,7 +174,17 @@ const Header = () => {
                   ))
               }
             </Box>
-
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={userPages}
+              sx={{ width: 300, marginRight: '50px' }}
+              renderInput={(params) => <TextField {...params} label="Search" />}
+            />
+            <div>
+            <div className='w-[25px] absolute h-[25px] text-center bg-white top-[0.65rem] right-[4.7rem] text-black rounded-full'>{count}</div>
+              <FiShoppingCart className='mr-10 w-10 h-20' />
+            </div>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 {
@@ -181,6 +197,7 @@ const Header = () => {
                     />
                 }
               </Tooltip>
+
               <Menu
                 sx={{ mt: '45px' }}
                 id="menu-appbar"

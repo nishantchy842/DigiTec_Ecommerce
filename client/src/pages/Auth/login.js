@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { assignUserRole, setLoginDetails } from '../../Redux/reducer/userSlice';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -13,8 +14,6 @@ const Login = () => {
   const dispatch = useDispatch()
 
   const onFinish = async (values) => {
-    console.log(password);
-    console.log(email);
     try {
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/login`, {
         email,
@@ -23,6 +22,7 @@ const Login = () => {
       if (res.data.user.role === 0) {
         dispatch(assignUserRole('user'))
         dispatch(setLoginDetails({ id: res.data.user._id, token: res.data.token }))
+        toast.success("login successfull")
         navigate("/")
       } else if (res.data.user.role === 1) {
         debugger;
@@ -34,6 +34,7 @@ const Login = () => {
           phone: res.data.user.phone,
           email: res.data.user.email
         }))
+        toast.success("login successfull")
         navigate("/")
       }
     } catch (error) {
