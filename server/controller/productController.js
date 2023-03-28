@@ -1,4 +1,5 @@
 const productModel = require('../models/productModel')
+const categoryModel = require('../models/categoryModel')
 const fs = require('fs')
 const slugify = require('slugify')
 //create new product => /api/v1/product/new
@@ -179,3 +180,44 @@ exports.deleteProduct = async(req,res)=>{
     })
   }
 }
+//get product by category
+
+exports.productCateory=async(req,res)=>{
+  try{
+    const category = await categoryModel.findOne({slug:req.params.slug})
+    const products = await productModel.find({category}).populate('category')
+    res.status(200).send({
+      success: true,
+      category,
+      products,
+    });
+  }catch(error){
+    res.status(500).send({
+      success:false,
+      error,
+      message:'error in getting product'
+    })
+  }
+}
+
+// filters
+exports.productFiltersController = async (req, res) => {
+  try {
+    const { checked } = req.body;
+    let args = {};
+    if (checked.length > 0) args.category = checked;
+    // if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+    const products = await productModel.find(args);
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error WHile Filtering Products",
+      error,
+    });
+  }
+};

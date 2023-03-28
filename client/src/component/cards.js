@@ -4,23 +4,17 @@ import { Card } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from 'react-icons/fi';
-import { decreaseCart, increaseCart } from '../Redux/reducer/countSlice'
+import { decreaseCart, increaseCart,favProduct } from '../Redux/reducer/countSlice'
+import useProducts from '../hooks/useProduct';
 const { Meta } = Card;
 const Cards = () => {
-    const [productList, setProductList] = useState([])
     const [counts, setcount] = useState(0)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const count = useSelector(state => state.addCart.count)
-    const fetchProduct = async () => {
-        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/product/product`)
-        // alert(JSON.stringify(res.data.products))
-        setProductList(res.data.products)
-
-    }
-    useEffect(() => {
-        fetchProduct()
-    }, [])
+    const isLike =useSelector(state=>state.addCart.isLike)
+  
+    const products = useProducts()
 
     const respectiveProduct=(item,slug)=>{
         navigate(`/product/${slug}`, { state: item })
@@ -29,11 +23,11 @@ const Cards = () => {
     return (
         <>
             <div className='flex justify-center flex-wrap shrink'>
-                {productList.length > 0 && productList.map((item) => {
+                {products.length > 0 && products.map((item) => {
                     return (
                         <Card
                             style={{
-                                height: '50%',
+                                height:'auto',
                                 width: 300,
                                 marginRight: '10px',
                                 marginBottom: '10px'
@@ -51,8 +45,10 @@ const Cards = () => {
                                 <FiMinus key="increase" onClick={() => dispatch(decreaseCart())} />,
                                 <p>{count}</p>,
                                 <FiPlus key="decrease" onClick={() => dispatch(increaseCart())} />,
-                                <FiShoppingCart />,
-                                <FiHeart key="like" />,
+                                <FiShoppingCart  />,
+                                <FiHeart key="like" 
+                                style={{width:'20px', height:'20px', color:isLike==true? 'red' : 'black' }}
+                                onClick={()=>dispatch(favProduct({name:item.name}))}/>,
                             ]}
                         >
                             <div className='bg-[#f7f7f7] h-[100px] overflow-hidden text-center'
@@ -61,7 +57,7 @@ const Cards = () => {
                                 <p>Rs.{item.price}</p>
                                 <Meta
                                     title={item.name}
-                                    description={item.description}
+                                    description={`${item.description.substring(0,50)}.....`}
                                 />
                             </div>
                         </Card>

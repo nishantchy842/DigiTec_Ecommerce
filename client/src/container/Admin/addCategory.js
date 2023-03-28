@@ -4,17 +4,24 @@ import Layout from '../../component/layout/layout'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Modal } from 'antd';
+import { Modal, Popconfirm, message } from 'antd';
+import useCategory from '../../hooks/useCategory';
+
+const cancel = (e) => {
+  console.log(e);
+  message.error('canceled');
+};
 
 
 const AddCategory = () => {
-  const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(null);
   const [updatedName, setUpdatedName] = useState("");
 
   const navigate = useNavigate()
+  //all categories
+  const categories = useCategory()
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(name)
@@ -25,7 +32,7 @@ const AddCategory = () => {
       if (data?.success) {
 
         toast.success(`${data.category.name} is created`);
-        getAllCategory();
+        categories();
         setName('')
       } else {
         alert.error(data.message);
@@ -36,21 +43,7 @@ const AddCategory = () => {
     }
 
   }
-  const getAllCategory = async () => {
-    try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/category/category-list`);
-      if (data?.success) {
-        setCategories(data?.category);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something wwent wrong in getting catgeory");
-    }
-  }
 
-  useEffect(() => {
-    getAllCategory();
-  }, []);
   //update existing category
   const handleUpdate = async (e) => {
     e.preventDefault()
@@ -63,7 +56,7 @@ const AddCategory = () => {
         setSelected(null);
         setUpdatedName("");
         setVisible(false);
-        getAllCategory();
+        categories();
       } else {
         toast.error(data.message);
       }
@@ -77,8 +70,8 @@ const AddCategory = () => {
       const { data } = await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/category/delete-category/${pid}`)
       if (data?.success) {
         toast.success(data.message)
-        getAllCategory()
-      }else{
+        categories()
+      } else {
         toast.error(data.message)
       }
     } catch (error) {
@@ -125,12 +118,21 @@ const AddCategory = () => {
                       >Update</button>
                     </td>
                     <td>
-                      <button
-                        className="rounded-full border p-1 bg-[#b71111] hover:text-[white]"
-                        onClick={() => handleDelete(item._id)}
+                      <Popconfirm
+                        title="Delete the category"
+                        placement="right"
+                        description="Are you sure to delete this task?"
+                        onConfirm={() => handleDelete(item._id)}
+                        onCancel={cancel}
+                        okText="Yes"
+                        cancelText="No"
                       >
-                        Delete
-                      </button>
+                        <button
+                          className="rounded-full border p-1 bg-[#b71111] hover:text-[white]"
+                        >
+                          Delete
+                        </button>
+                      </Popconfirm>
                     </td>
                   </tr>
                 </tbody>

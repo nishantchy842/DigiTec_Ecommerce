@@ -19,13 +19,14 @@ const Login = () => {
         email,
         password
       })
+      if(res.data.success===true){
       if (res.data.user.role === 0) {
         dispatch(assignUserRole('user'))
         dispatch(setLoginDetails({ id: res.data.user._id, token: res.data.token }))
         toast.success("login successfull")
         navigate("/")
       } else if (res.data.user.role === 1) {
-        debugger;
+      
         dispatch(assignUserRole('admin'))
         dispatch(setLoginDetails({
           id: res.data.user._id,
@@ -37,8 +38,13 @@ const Login = () => {
         toast.success("login successfull")
         navigate("/")
       }
+    }else
+       { 
+        toast.error(res.data.message)
+      }
+      
     } catch (error) {
-      alert(error)
+      toast.error('Some went wrong')
     }
 
 

@@ -11,22 +11,24 @@ import {
   Button,
   Tooltip,
   MenuItem,
-  Autocomplete,
-  TextField,
 } from '@mui/material'
 import { AiOutlineMenu } from 'react-icons/ai'
 import { useNavigate } from "react-router-dom";
 import DigiTec from "../../images/DigiTech.png"
 import { useSelector, useDispatch } from "react-redux";
 import { assignUserRole, setLoginDetails } from '../../Redux/reducer/userSlice';
-import { FiLogIn, FiShoppingCart } from 'react-icons/fi'
+import { FiLogIn } from 'react-icons/fi'
 import { toast } from 'react-toastify';
+import AddtoCart from '../../utils/addToCartIcon';
+import MakeSearch from '../../utils/search';
+import CatgoryPopover from '../../utils/catgoryPopover';
 
 
 
-const userPages = ['Home', 'Products', 'Categories'];
+
+const userPages = ['Home', 'Products'];
 const adminSide = ['Home', 'Create Category', 'Create Product', 'Products', 'Orders'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Dashboard', 'Logout'];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -59,6 +61,9 @@ const Header = () => {
       dispatch(assignUserRole(''))
       toast.success("Logout successfull")
       navigate("/login")
+    }
+    if (e.target.textContent === 'Dashboard') {
+      userRole === 'admin' ? navigate('/') : navigate('/user/dashboard')
     }
     setAnchorElUser(null);
   };
@@ -116,18 +121,20 @@ const Header = () => {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {userRole === "user" ?
-                  userPages.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page}</Typography>
-                    </MenuItem>
-                  )) :
-                  adminSide.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page}</Typography>
-                    </MenuItem>
-                  ))
+                {
+                  userRole === "admin" ?
+                    adminSide.map((page) => (
+                      <MenuItem key={page} onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">{page}</Typography>
+                      </MenuItem>
+                    )) :
+                    userPages.map((page) => (
+                      <MenuItem key={page} onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">{page}</Typography>
+                      </MenuItem>
+                    ))
                 }
+                {userRole === "admin" ? '' : <CatgoryPopover />}
               </Menu>
             </Box>
             <Typography
@@ -153,38 +160,32 @@ const Header = () => {
 
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {
-                userRole === "user" ?
-                  userPages.map((page) => (
-                    <Button
-                      key={page}
-                      onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: 'white', display: 'block' }}
-                    >
-                      {page}
-                    </Button>
-                  )) :
+                userRole === "admin" ?
                   adminSide.map((page) => (
                     <Button
                       key={page}
                       onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: 'white', display: 'block' }}
+                      sx={{ color: 'white', display: 'block' }}
                     >
                       {page}
                     </Button>
+                  )) :
+                  userPages.map((page) => (
+                    <Button
+                      key={page}
+                      onClick={handleCloseNavMenu}
+                      sx={{ color: 'white', display: 'block' }}
+                    >
+                      {page}
+
+                    </Button>
                   ))
               }
+              {userRole === "admin" ? '' : <CatgoryPopover />}
             </Box>
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={userPages}
-              sx={{ width: 300, marginRight: '50px' }}
-              renderInput={(params) => <TextField {...params} label="Search" />}
-            />
-            <div>
-            <div className='w-[25px] absolute h-[25px] text-center bg-white top-[0.65rem] right-[4.7rem] text-black rounded-full'>{count}</div>
-              <FiShoppingCart className='mr-10 w-10 h-20' />
-            </div>
+
+            <MakeSearch />
+            <AddtoCart />
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 {

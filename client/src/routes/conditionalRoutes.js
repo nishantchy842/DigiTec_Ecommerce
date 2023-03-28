@@ -13,6 +13,8 @@ import Product from '../pages/product';
 import CategoryForm from '../component/Form/categoryForm';
 import AddCategory from '../container/Admin/addCategory';
 import UpdateProduct from '../container/Admin/updateProduct';
+import MyFavProduct from '../pages/myFavProduct';
+import UserDashboard from '../pages/Users/userDashboard';
 
 
 
@@ -30,13 +32,13 @@ const DefaulRoutes = () => {
     return (
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/product/:slug" element={<Product />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/card' element={<Cards /> } />
         <Route path="/product" element={<Product />} />
         <Route path='*' element={<PageNotFound />} />
-
       </Routes>
     );
   };
@@ -49,7 +51,8 @@ const DefaulRoutes = () => {
       <Route path='/card' element={<Cards /> } />
       <Route path="/product/:slug" element={<Product />} />
       <Route path='*' element={<PageNotFound />} />
-    
+      <Route path='/liked-product' element={<MyFavProduct />} />
+      <Route path='/user/dashboard' element={<UserDashboard />} />
       </Routes>
     );
   };

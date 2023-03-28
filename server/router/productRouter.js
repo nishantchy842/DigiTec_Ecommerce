@@ -7,7 +7,10 @@ const {
   productPhotoController, 
   getSingleProduct, 
   updateProduct, 
-  deleteProduct } = require('../controller/productController')
+  deleteProduct, 
+  productCateory,
+  productFiltersController
+} = require('../controller/productController')
 const { requireSignIn, isAdmin } = require('../middleware/authMiddleware')
 
 const router = express.Router()
@@ -32,4 +35,10 @@ router.put(
   );
 //delete rproduct
 router.delete("/delete-product/:pid", deleteProduct);
+//category wise product
+router.get("/product-category/:slug", productCateory);
+//filter product
+router.post("/product-filters", productFiltersController);
+
+
 module.exports = router;

@@ -4,9 +4,8 @@ import Layout from '../component/layout/layout'
 
 const Contact = () => {
   const [quotes, setQuotes] = useState([])
-  const date = new Date();
 
-  const getQuotes = useEffect(() => {
+  useEffect(() => {
     fetch('https://dummyjson.com/quotes/random')
       .then(function (response) {
         return response.json()

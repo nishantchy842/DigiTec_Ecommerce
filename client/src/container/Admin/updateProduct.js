@@ -4,12 +4,19 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 
 
+
 import {
+    message,
+    Popconfirm,
     Select,
 } from 'antd';
 import Layout from '../../component/layout/layout';
 
 const { Option } = Select;
+const cancel = (e) => {
+    console.log(e);
+    message.error('canceled');
+};
 
 
 const UpdateProduct = () => {
@@ -218,12 +225,32 @@ const UpdateProduct = () => {
                             </Select>
                         </div>
                         <div className="mb-3 bg-[#00b3ff] flex justify-around">
-                            <button className="btn btn-primary border p-2" onClick={handleUpdate}>
-                                UPDATE PRODUCT
-                            </button>
-                            <button className="btn btn-primary border p-2" onClick={handleDelete}>
-                                DELETE PRODUCT
-                            </button>
+                            <Popconfirm
+                                title="Update the Porduct"
+                                placement="bottom"
+                                description="Are you sure to delete this task?"
+                                onConfirm={handleUpdate}
+                                onCancel={cancel}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <button className="btn btn-primary border p-2">
+                                    UPDATE PRODUCT
+                                </button>
+                            </Popconfirm>
+                            <Popconfirm
+                                title="Delete the Product"
+                                placement="bottom"
+                                description="Are you sure to delete this task?"
+                                onConfirm={handleDelete}
+                                onCancel={cancel}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <button className="btn btn-primary border p-2">
+                                    DELETE PRODUCT
+                                </button>
+                            </Popconfirm>
                         </div>
                     </div>
                 </div>

@@ -8,13 +8,13 @@ import {
   Select,
 } from 'antd';
 import Layout from '../../component/layout/layout';
+import useCategory from '../../hooks/useCategory';
 
 const { Option } = Select;
 
 
 const AddItems = () => {
   const navigate = useNavigate()
-  const [categories, setCategories] = useState(['phone', 'laptop']);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -24,20 +24,7 @@ const AddItems = () => {
   const [photo, setPhoto] = useState("");
 
   // get all category
-  const getAllCategory = async () => {
-    try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/category/category-list`);
-      if (data?.success) {
-        setCategories(data?.category);
-      }
-    } catch (error) {
-      console.log(error);
-      alert("Something went wrong in getting catgeory");
-    }
-  };
-  useEffect(() => {
-    getAllCategory();
-  }, []);
+  const categories = useCategory()
 
   //create product function
   const handleCreate = async (e) => {
@@ -73,21 +60,21 @@ const AddItems = () => {
         <div className="min-h-[80vh] flex justify-center items-center" >
           <div className="bg-[#a2ded0] flex flex-col justify-center items-center w-[50%]">
             <h1 className=" m-10 text-center text-2xl font-serif font-semibold text-[#0e0f10] ">Create Product</h1>
-              <Select
-                bordered={false}
-                placeholder="Select a category"
-                size="large"
-                className=" placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"                
-                onChange={(value) => {
-                  setCategory(value);
-                }}
-              >
-                {categories?.map((c) => (
-                  <Option key={c._id} value={c._id}>
-                    {c.name}
-                  </Option>
-                ))}
-              </Select>
+            <Select
+              bordered={false}
+              placeholder="Select a category"
+              size="large"
+              className=" placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+              onChange={(value) => {
+                setCategory(value);
+              }}
+            >
+              {categories?.map((c) => (
+                <Option key={c._id} value={c._id}>
+                  {c.name}
+                </Option>
+              ))}
+            </Select>
             <div className="m-3">
               <label className="btn btn-outline-secondary col-md-12">
                 {photo ? photo.name : "Upload Photo"}
