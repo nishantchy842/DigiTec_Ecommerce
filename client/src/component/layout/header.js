@@ -20,8 +20,8 @@ import { assignUserRole, setLoginDetails } from '../../Redux/reducer/userSlice';
 import { FiLogIn } from 'react-icons/fi'
 import { toast } from 'react-toastify';
 import AddtoCart from '../../utils/addToCartIcon';
-import MakeSearch from '../../utils/search';
 import CatgoryPopover from '../../utils/catgoryPopover';
+import SearchInput from '../../utils/search';
 
 
 
@@ -134,7 +134,6 @@ const Header = () => {
                       </MenuItem>
                     ))
                 }
-                {userRole === "admin" ? '' : <CatgoryPopover />}
               </Menu>
             </Box>
             <Typography
@@ -181,10 +180,9 @@ const Header = () => {
                     </Button>
                   ))
               }
-              {userRole === "admin" ? '' : <CatgoryPopover />}
             </Box>
 
-            <MakeSearch />
+            <SearchInput />
             <AddtoCart />
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">

@@ -15,6 +15,7 @@ import AddCategory from '../container/Admin/addCategory';
 import UpdateProduct from '../container/Admin/updateProduct';
 import MyFavProduct from '../pages/myFavProduct';
 import UserDashboard from '../pages/Users/userDashboard';
+import SearchPage from '../pages/searchPage';
 
 
 
@@ -39,6 +40,7 @@ const DefaulRoutes = () => {
         <Route path='/card' element={<Cards /> } />
         <Route path="/product" element={<Product />} />
         <Route path='*' element={<PageNotFound />} />
+        <Route path='/search' element={<SearchPage />} />
       </Routes>
     );
   };
@@ -53,6 +55,7 @@ const DefaulRoutes = () => {
       <Route path='*' element={<PageNotFound />} />
       <Route path='/liked-product' element={<MyFavProduct />} />
       <Route path='/user/dashboard' element={<UserDashboard />} />
+      <Route path='/search' element={<SearchPage />} />
       </Routes>
     );
   };
@@ -66,6 +69,7 @@ const DefaulRoutes = () => {
         <Route path='/product/:slug' element={<UpdateProduct /> } />
         <Route path='/category' element={<AddCategory /> } />
         <Route path='*' element={<PageNotFound />} />
+        <Route path='/search' element={<SearchPage />} />
 
       </Routes>
     );

@@ -1,74 +1,47 @@
-import React from 'react'
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { searchProduct,searchKeyword } from "../Redux/reducer/searchSlice";
+import { useDispatch } from "react-redux";
+const SearchInput = () => {
+  const [values, setValues]=useState()
+  const navigate = useNavigate();
+ const dispatch = useDispatch()
 
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import InputBase from '@mui/material/InputBase';
-import { BsSearch } from 'react-icons/bs';
-
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        width: '12ch',
-        '&:focus': {
-          width: '20ch',
-        },
-      },
-    },
-  }));
-
-const MakeSearch = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/api/v1/product/search/${values.keyword}`
+      );
+      // setValues({ ...values, results: data });
+      dispatch(searchProduct({ ...values, result: data }))
+      navigate("/search");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
-    <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="static">
-      <Toolbar>
-        <Search>
-          <SearchIconWrapper>
-            <BsSearch />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </Search>
-      </Toolbar>
-    </AppBar>
-  </Box>
+      <form
+        className="d-flex search-form"
+        role="search"
+        onSubmit={handleSubmit}
+      >
+        <input
+          className=" bg-slate-900"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          // value='ffff'
+          onChange={(e) => setValues({ ...values, keyword: e.target.value })}
+        />
+        <button className="btn btn-outline-success" type="submit">
+          Search
+        </button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default MakeSearch
+export default SearchInput;

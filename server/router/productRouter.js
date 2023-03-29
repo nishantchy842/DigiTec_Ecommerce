@@ -9,7 +9,8 @@ const {
   updateProduct, 
   deleteProduct, 
   productCateory,
-  productFiltersController
+  productFiltersController,
+  searchProductController
 } = require('../controller/productController')
 const { requireSignIn, isAdmin } = require('../middleware/authMiddleware')
 
@@ -39,6 +40,7 @@ router.delete("/delete-product/:pid", deleteProduct);
 router.get("/product-category/:slug", productCateory);
 //filter product
 router.post("/product-filters", productFiltersController);
-
+//search product
+router.get("/search/:keyword", searchProductController);
 
 module.exports = router;

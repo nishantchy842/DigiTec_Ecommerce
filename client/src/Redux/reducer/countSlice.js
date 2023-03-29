@@ -2,8 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   count: 0,
-  isLike: false,
-  likedProduct: []
+  likedProduct: [
+  
+  ]
 }
 
 const ProductSlice = createSlice({
@@ -17,12 +18,7 @@ const ProductSlice = createSlice({
       state.count -= 1
     },
     favProduct: (state, action) => {
-      state.isLike = !state.isLike
-
-      if (state.isLike === true) {
-        state.likedProduct.push(action.payload)
-      }
-     
+      console.log(state.likedProduct[0].isLike)
     }
   },
 })
