@@ -245,3 +245,36 @@ exports.searchProductController = async (req, res) => {
     });
   }
 };
+
+// product list base on page
+exports.productListController = async (req, res) => {
+  try {
+    // const perPage = 6;
+    // const skipStartPages = req.query.size * (req.query.page - 1)
+    const page = req.params.page ? req.params.page : 1;
+    let totalItem = await productModel.find().count()
+    if (totalItem % req.query.size != 0) {
+      totalItem = Math.ceil(totalItem / req.query.size)
+    } else {
+      totalItem = totalItem / req.query.size
+    }
+    const products = await productModel
+      .find()
+      .select("-photo")
+      .skip((page - 1) * req.query.size)
+      .limit(req.query.size)
+      .sort({ createdAt: -1 });
+    res.status(200).send({
+      success: true,
+      products,
+      totalItem
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "error in per page ctrl",
+      error,
+    });
+  }
+};

@@ -10,7 +10,8 @@ const {
   deleteProduct, 
   productCateory,
   productFiltersController,
-  searchProductController
+  searchProductController,
+  productListController
 } = require('../controller/productController')
 const { requireSignIn, isAdmin } = require('../middleware/authMiddleware')
 
@@ -42,5 +43,6 @@ router.get("/product-category/:slug", productCateory);
 router.post("/product-filters", productFiltersController);
 //search product
 router.get("/search/:keyword", searchProductController);
-
+//product per page
+router.get("/product-list/:page", productListController);
 module.exports = router;

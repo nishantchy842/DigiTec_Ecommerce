@@ -20,17 +20,24 @@ const Homepage = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
   const [checked, setChecked] = useState([]);
+  const [totalItem, setTotalItem] = useState(0)
 
 
   //get products
-  const getAllProducts = async () => {
+  const getAllProducts = async (page) => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/product/product`)
+      debugger
+      const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/product/product-list/${page}?size=5`)
       setProduct(data?.products);
+      setTotalItem(data?.totalItem)
+
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(()=>{
+    getAllProducts('1')
+  },[])
 
   //handle filter
   const handleFilter = (value, id) => {
@@ -101,7 +108,7 @@ const Homepage = () => {
       </div>
       <div className='pagination flex justify-end'>
         <Stack spacing={2} >
-          <Pagination count={product.length} color="primary" />
+          <Pagination count={totalItem} onChange={(e)=>getAllProducts(e.target.textContent)} color="primary" />
         </Stack>
       </div>
     </Layout>
