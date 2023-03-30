@@ -9,11 +9,9 @@ const Slider = () => {
         two,
         three
     ]
-    const onChange = (currentSlide) => {
-        console.log(currentSlide);
-      };
+
     return (
-        <Carousel autoplay afterChange={onChange}>
+        <Carousel autoplay >
             {
                 images.map((item, id) => {
                     return (

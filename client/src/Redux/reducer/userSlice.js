@@ -23,7 +23,6 @@ const userSlice = createSlice({
       state.userRole = actions.payload
     },
     setLoginDetails: (state, actions)=>{
-      debugger
       if(actions.payload){
         const {token, id, name, phone, email, address} = actions.payload
         state.token = token

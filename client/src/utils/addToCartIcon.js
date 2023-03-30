@@ -17,12 +17,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const AddtoCart =()=> {
     const navigate = useNavigate()
-    const {count} = useSelector(state=>state.addCart)
-  return (
+    const total = useSelector(state => state.addCart.total)
+    return (
     <IconButton aria-label="cart" style={{marginRight:'30px'}}>
-      <StyledBadge badgeContent={count} color="secondary">
+      <StyledBadge badgeContent={total} color="secondary">
         <BsFillCartPlusFill style={{width:'50px', height:'40px'}} 
-        onClick={()=>navigate('/liked-product')}
+        onClick={()=>navigate('/cart')}
         />
       </StyledBadge>
     </IconButton>

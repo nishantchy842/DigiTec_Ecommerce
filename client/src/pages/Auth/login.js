@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Layout from '../../component/layout/layout'
 import { Button, Checkbox, Form, Input } from 'antd';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { assignUserRole, setLoginDetails } from '../../Redux/reducer/userSlice';
 import { toast } from 'react-toastify';
@@ -12,46 +12,48 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
+  let { state } = useLocation()
   const onFinish = async (values) => {
     try {
-      debugger
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/login`, {
         email,
         password
       })
-      if(res.data.success===true){
-      if (res.data.user.role === 0) {
-        dispatch(assignUserRole('user'))
-        dispatch(setLoginDetails({ 
-          id: res.data.user._id, 
-          token: res.data.token,  
-          name: res.data.user.name,
-          phone: res.data.user.phone,
-          email: res.data.user.email,
-          address: res.data.user.address
+      if (res.data.success === true) {
+        if (res.data.user.role === 0) {
+          dispatch(assignUserRole('user'))
+          dispatch(setLoginDetails({
+            id: res.data.user._id,
+            token: res.data.token,
+            name: res.data.user.name,
+            phone: res.data.user.phone,
+            email: res.data.user.email,
+            address: res.data.user.address
 
-        }))
-        toast.success("login successfull")
-        navigate("/")
-      } else if (res.data.user.role === 1) {
-      
-        dispatch(assignUserRole('admin'))
-        dispatch(setLoginDetails({
-          id: res.data.user._id,
-          token: res.data.token,
-          name: res.data.user.name,
-          phone: res.data.user.phone,
-          email: res.data.user.email
-        }))
-        toast.success("login successfull")
-        navigate("/")
-      }
-    }else
-       { 
+          }))
+          toast.success("login successfull")
+          if (state?.onSuccessNavigation === '/cart') {
+            navigate('/cart')
+          } else {
+            navigate('/')
+          }
+        } else if (res.data.user.role === 1) {
+
+          dispatch(assignUserRole('admin'))
+          dispatch(setLoginDetails({
+            id: res.data.user._id,
+            token: res.data.token,
+            name: res.data.user.name,
+            phone: res.data.user.phone,
+            email: res.data.user.email
+          }))
+          toast.success("login successfull")
+          navigate("/")
+        }
+      } else {
         toast.error(res.data.message)
       }
-      
+
     } catch (error) {
       toast.error('Some went wrong')
     }
@@ -64,7 +66,7 @@ const Login = () => {
   return (
     <Layout title={'Login'}>
       <div className='flex justify-center items-center min-h-[79vh] bg-slate-400'>
-        <Form className='border-2 w-[40%] p-4'
+        <Form className='border-2 w-[40%] p-4 bg-[#f1f1f1]'
           name="basic"
           labelCol={{
             span: 8,
@@ -83,7 +85,7 @@ const Login = () => {
           autoComplete="on"
         >
           <Form.Item
-            label="email"
+            label="Email"
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -129,7 +131,7 @@ const Login = () => {
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button block className='text-[black]' type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>

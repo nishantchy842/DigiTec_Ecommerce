@@ -7,9 +7,10 @@ import ButtonBase from '@mui/material/ButtonBase';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../component/layout/layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { increaseCart, decreaseCart } from '../Redux/reducer/countSlice';
+import { increaseCart, decreaseCart, removeProduct, favProduct } from '../Redux/reducer/countSlice';
 import { toast } from 'react-toastify';
 import { Button } from '@mui/material';
+import MyFavProduct from './myFavProduct';
 const Img = styled('img')({
   margin: 'auto',
   display: 'block',
@@ -20,6 +21,7 @@ const Img = styled('img')({
 
 const Product = () => {
   const { state } = useLocation()
+  console.log(state)
   const [cartCount, setCartCout] = useState(0)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -28,14 +30,14 @@ const Product = () => {
   const handleDecre = () => {
     if (cartCount > 0) {
       setCartCout(cartCount - 1)
-      dispatch(decreaseCart())
+      dispatch(removeProduct(state))
     }
   }
   const handleInc = (e) => {
     e.preventDefault()
     if (cartCount < state.quantity) {
       setCartCout(cartCount + 1)
-      dispatch(increaseCart())
+      dispatch(favProduct(state))
 
     } else {
       toast.error("outofstock")
@@ -44,9 +46,10 @@ const Product = () => {
 
   const handleBuy=()=>{
     isLoggedIn===true?
-      toast.success("you order is placed")
+    dispatch(favProduct(state), navigate('/cart'))
    :
-     navigate('/login')
+   dispatch(favProduct(state), navigate("/login", { state: { onSuccessNavigation: "/cart" } }))
+   
   }
   return (
     <Layout>
@@ -104,6 +107,8 @@ const Product = () => {
                       onClick={handleBuy}
                     >BUY</Button>
                     <Button  variant="contained"
+                    
+                    onClick={()=>handleBuy()}
                     >ADD TO CART</Button>
                   </div>
                 </Typography>

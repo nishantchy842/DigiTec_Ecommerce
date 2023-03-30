@@ -34,7 +34,7 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { isLoggedIn, userRole ,name } = useSelector(state => state.user)
+  const { isLoggedIn, userRole, name } = useSelector(state => state.user)
   const count = useSelector(state => state.addCart.count)
 
 
@@ -181,13 +181,13 @@ const Header = () => {
               }
             </Box>
 
-            <AddtoCart />
+            {userRole === 'admin' ? '' : <AddtoCart />}
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 {
                   isLoggedIn ?
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar sx={{ bgcolor: deepOrange[500] }}>{name.charAt(0)}</Avatar>
+                      <Avatar sx={{ bgcolor: deepOrange[500] }}>{name.charAt(0)}</Avatar>
                     </IconButton> :
                     <FiLogIn className='cursor-pointer'
                       onClick={() => navigate('/login')}

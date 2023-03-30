@@ -26,14 +26,14 @@ const Homepage = () => {
 
 
   //get products
-  const getAllProducts = async (page,key) => {
+  const getAllProducts = async (page, key) => {
     try {
       let res
-      if (key){
+      if (key) {
         debugger
-         res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/product/search/${key}?size=8`)
-         setProduct(res?.data);
-      }else{
+        res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/product/search/${key}?size=8`)
+        setProduct(res?.data);
+      } else {
         res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/product/product-list/${page}?size=8`)
         setProduct(res?.data?.products);
         setTotalItem(res.data?.totalItem)
@@ -44,9 +44,9 @@ const Homepage = () => {
       console.log(error);
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     getAllProducts('1')
-  },[])
+  }, [])
 
   //handle filter
   const handleFilter = (value, id) => {
@@ -82,8 +82,8 @@ const Homepage = () => {
   };
   return (
     <Layout title={'DigiTec'}>
-    <Search getAllProducts={getAllProducts} />
-    <Slider  />
+      <Search getAllProducts={getAllProducts} />
+      <Slider />
       <div className='flex'>
         <Space
           direction="vertical"
@@ -111,14 +111,14 @@ const Homepage = () => {
         <div className='flex justify-center flex-wrap shrink'>
           {
             product?.map((item, id) => {
-              return <Cards key={id} item={item} />
+              return <Cards key={id} item={item} id={id} />
             })
           }
         </div>
       </div>
       <div className='pagination flex justify-end'>
         <Stack spacing={2} >
-          <Pagination count={totalItem} onChange={(e)=>getAllProducts(e.target.textContent)} color="primary" />
+          <Pagination count={totalItem} onChange={(e) => getAllProducts(e.target.textContent)} color="primary" />
         </Stack>
       </div>
     </Layout>

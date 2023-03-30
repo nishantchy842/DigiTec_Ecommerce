@@ -250,7 +250,7 @@ exports.searchProductController = async (req, res) => {
 exports.productListController = async (req, res) => {
   try {
     var regexp = new RegExp('^' + req.query.search)
-    const skipStartPages = req.query.size * (req.query.page - 1)
+    // const skipStartPages = req.query.size * (req.query.page - 1)
     const page = req.params.page ? req.params.page : 1;
     let totalItem = await productModel.find().count()
     if (totalItem % req.query.size != 0) {
@@ -258,21 +258,13 @@ exports.productListController = async (req, res) => {
     } else {
       totalItem = totalItem / req.query.size
     }
-    let products
-    if (req.query.search) {
-      products = await productModel.find({ itemName: regexp })
-        // .select("-photo")
-        .skip(page)
-        .limit(req.query.size)
-
-    } else {
-      products = await productModel
+     const products = await productModel
         .find()
         .select("-photo")
         .skip((page - 1) * req.query.size)
         .limit(req.query.size)
         .sort({ createdAt: -1 });
-    }
+    
     res.status(200).send({
       success: true,
       products,

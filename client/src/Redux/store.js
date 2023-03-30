@@ -4,7 +4,6 @@ import userSlice from './reducer/userSlice';
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import logger from "redux-logger";
-import SearchSlice from './reducer/searchSlice'
 
 
 
@@ -12,7 +11,7 @@ import SearchSlice from './reducer/searchSlice'
 const persistConfig = {
     key: "root",
     storage,
-    blacklist: ["location"],
+    blacklist: ["addCart"],
 };
 
 
@@ -20,7 +19,6 @@ const reducers = combineReducers({
 
     addCart: reducer,
     user: userSlice,
-    search: SearchSlice
 
 
 });
