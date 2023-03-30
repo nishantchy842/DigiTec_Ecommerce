@@ -2,11 +2,11 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate,useLocation } from "react-router-dom";
 import Layout from '../../component/layout/layout';
+import useProduct from '../../hooks/useProduct'
 
 const Dashboard = () => {
  const {name,phone,email} = useSelector(state=>state.user)
- console.log(name)
- console.log(phone)
+
   return (
     <Layout>
      

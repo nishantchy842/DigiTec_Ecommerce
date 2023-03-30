@@ -15,6 +15,7 @@ const Login = () => {
 
   const onFinish = async (values) => {
     try {
+      debugger
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/login`, {
         email,
         password
@@ -22,7 +23,15 @@ const Login = () => {
       if(res.data.success===true){
       if (res.data.user.role === 0) {
         dispatch(assignUserRole('user'))
-        dispatch(setLoginDetails({ id: res.data.user._id, token: res.data.token }))
+        dispatch(setLoginDetails({ 
+          id: res.data.user._id, 
+          token: res.data.token,  
+          name: res.data.user.name,
+          phone: res.data.user.phone,
+          email: res.data.user.email,
+          address: res.data.user.address
+
+        }))
         toast.success("login successfull")
         navigate("/")
       } else if (res.data.user.role === 1) {

@@ -20,8 +20,7 @@ import { assignUserRole, setLoginDetails } from '../../Redux/reducer/userSlice';
 import { FiLogIn } from 'react-icons/fi'
 import { toast } from 'react-toastify';
 import AddtoCart from '../../utils/addToCartIcon';
-import CatgoryPopover from '../../utils/catgoryPopover';
-import SearchInput from '../../utils/search';
+import { deepOrange } from '@mui/material/colors';
 
 
 
@@ -35,7 +34,7 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { isLoggedIn, userRole } = useSelector(state => state.user)
+  const { isLoggedIn, userRole ,name } = useSelector(state => state.user)
   const count = useSelector(state => state.addCart.count)
 
 
@@ -182,14 +181,13 @@ const Header = () => {
               }
             </Box>
 
-            <SearchInput />
             <AddtoCart />
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 {
                   isLoggedIn ?
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                    <Avatar sx={{ bgcolor: deepOrange[500] }}>{name.charAt(0)}</Avatar>
                     </IconButton> :
                     <FiLogIn className='cursor-pointer'
                       onClick={() => navigate('/login')}

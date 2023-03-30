@@ -7,6 +7,8 @@ import { Checkbox, Layout as layout, Skeleton, Space } from 'antd';
 import useCategory from '../hooks/useCategory';
 import { Stack } from '@mui/system';
 import Pagination from '@mui/material/Pagination';
+import Slider from '../utils/slider';
+import Search from '../utils/search';
 const { Sider } = layout;
 const siderStyle = {
   textAlign: 'center',
@@ -24,12 +26,19 @@ const Homepage = () => {
 
 
   //get products
-  const getAllProducts = async (page) => {
+  const getAllProducts = async (page,key) => {
     try {
-      debugger
-      const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/product/product-list/${page}?size=5`)
-      setProduct(data?.products);
-      setTotalItem(data?.totalItem)
+      let res
+      if (key){
+        debugger
+         res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/product/search/${key}?size=8`)
+         setProduct(res?.data);
+      }else{
+        res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/product/product-list/${page}?size=8`)
+        setProduct(res?.data?.products);
+        setTotalItem(res.data?.totalItem)
+
+      }
 
     } catch (error) {
       console.log(error);
@@ -73,12 +82,13 @@ const Homepage = () => {
   };
   return (
     <Layout title={'DigiTec'}>
+    <Search getAllProducts={getAllProducts} />
+    <Slider  />
       <div className='flex'>
         <Space
           direction="vertical"
           size={[0, 48]}
         >
-
           <Sider style={siderStyle}>
             <h1 className='text-center font-bold text-xl'>Filter By Category</h1>
             <div>

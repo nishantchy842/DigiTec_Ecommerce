@@ -9,6 +9,7 @@ import Layout from '../component/layout/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { increaseCart, decreaseCart } from '../Redux/reducer/countSlice';
 import { toast } from 'react-toastify';
+import { Button } from '@mui/material';
 const Img = styled('img')({
   margin: 'auto',
   display: 'block',
@@ -81,32 +82,29 @@ const Product = () => {
               </Grid>
             
                 <Typography sx={{ cursor: 'pointer' }}>
-                  <div className='flex justify-center'>
-                    <button
+                  <div className='flex justify-center mt-20'>
+                    <Button variant="contained"
                       className='bg-[#ff007f] w-10'
                       onClick={handleInc}
-                    >+</button>
+                    >+</Button>
                     <input
                       type='number'
                       className='w-10 h-8 m-2 text-center border'
                       value={cartCount}
                       onChange={(e) => setCartCout(e.target.value)}
                     />
-                    <button
-                      className='bg-[#ff007f] w-10'
+                    <Button variant="contained"
                       onClick={handleDecre}
                     >
                       -
-                    </button>
+                    </Button>
                   </div>
                   <div className='flex justify-center mt-3'>
-                    <button
-                      className='bg-[#ff007f] mr-3'
+                    <Button variant="contained"
                       onClick={handleBuy}
-                    >BUY</button>
-                    <button 
-                    className='bg-[#ff007f]'
-                    >ADD TO CART</button>
+                    >BUY</Button>
+                    <Button  variant="contained"
+                    >ADD TO CART</Button>
                   </div>
                 </Typography>
             

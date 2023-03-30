@@ -164,38 +164,38 @@ exports.updateProduct = async (req, res) => {
 };
 
 //delete product
-exports.deleteProduct = async(req,res)=>{
-  try{
+exports.deleteProduct = async (req, res) => {
+  try {
     await productModel.findByIdAndDelete(req.params.pid).select("-photo")
     res.status(200).send({
-      success:true,
-      message:"Product deleted successfully"
+      success: true,
+      message: "Product deleted successfully"
     })
-  }catch(error){
+  } catch (error) {
     console.log(error)
     res.status(500).send({
-      success:true,
+      success: true,
       error,
-      message:'error while deleting'
+      message: 'error while deleting'
     })
   }
 }
 //get product by category
 
-exports.productCateory=async(req,res)=>{
-  try{
-    const category = await categoryModel.findOne({slug:req.params.slug})
-    const products = await productModel.find({category}).populate('category')
+exports.productCateory = async (req, res) => {
+  try {
+    const category = await categoryModel.findOne({ slug: req.params.slug })
+    const products = await productModel.find({ category }).populate('category')
     res.status(200).send({
       success: true,
       category,
       products,
     });
-  }catch(error){
+  } catch (error) {
     res.status(500).send({
-      success:false,
+      success: false,
       error,
-      message:'error in getting product'
+      message: 'error in getting product'
     })
   }
 }
@@ -249,8 +249,8 @@ exports.searchProductController = async (req, res) => {
 // product list base on page
 exports.productListController = async (req, res) => {
   try {
-    // const perPage = 6;
-    // const skipStartPages = req.query.size * (req.query.page - 1)
+    var regexp = new RegExp('^' + req.query.search)
+    const skipStartPages = req.query.size * (req.query.page - 1)
     const page = req.params.page ? req.params.page : 1;
     let totalItem = await productModel.find().count()
     if (totalItem % req.query.size != 0) {
@@ -258,12 +258,21 @@ exports.productListController = async (req, res) => {
     } else {
       totalItem = totalItem / req.query.size
     }
-    const products = await productModel
-      .find()
-      .select("-photo")
-      .skip((page - 1) * req.query.size)
-      .limit(req.query.size)
-      .sort({ createdAt: -1 });
+    let products
+    if (req.query.search) {
+      products = await productModel.find({ itemName: regexp })
+        // .select("-photo")
+        .skip(page)
+        .limit(req.query.size)
+
+    } else {
+      products = await productModel
+        .find()
+        .select("-photo")
+        .skip((page - 1) * req.query.size)
+        .limit(req.query.size)
+        .sort({ createdAt: -1 });
+    }
     res.status(200).send({
       success: true,
       products,

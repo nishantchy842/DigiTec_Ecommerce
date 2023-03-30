@@ -20,17 +20,16 @@ const AddCategory = () => {
   const [updatedName, setUpdatedName] = useState("");
 
   const navigate = useNavigate()
+  
   //all categories
   const categories = useCategory()
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(name)
+
+  const handleSubmit = async () => {
     try {
       const { data } = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/category/add-category`, {
         name,
       });
       if (data?.success) {
-
         toast.success(`${data.category.name} is created`);
         categories();
         setName('')
@@ -45,18 +44,17 @@ const AddCategory = () => {
   }
 
   //update existing category
-  const handleUpdate = async (e) => {
-    e.preventDefault()
+  const handleUpdate = async () => {
     try {
       const { data } = await axios.put(`${process.env.REACT_APP_BASE_URL}/api/v1/category/update-category/${selected._id}`,
         { name: updatedName }
       )
       if (data?.success) {
         toast.success(`${updatedName} is updated`);
-        setSelected(null);
-        setUpdatedName("");
-        setVisible(false);
-        categories();
+        setSelected(null)
+        categories()
+        setUpdatedName('')
+        setVisible(false)
       } else {
         toast.error(data.message);
       }
@@ -70,7 +68,9 @@ const AddCategory = () => {
       const { data } = await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/category/delete-category/${pid}`)
       if (data?.success) {
         toast.success(data.message)
-        categories()
+        setSelected(null)
+        // categories()
+        setVisible(false)
       } else {
         toast.error(data.message)
       }

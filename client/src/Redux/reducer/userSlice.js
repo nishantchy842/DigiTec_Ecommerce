@@ -7,7 +7,8 @@ export const initialState = {
   id: '',
   name:'',
   phone:'',
-  email:''
+  email:'',
+  address:''
 };
 
 //What is createSlice in Redux Toolkit?
@@ -22,13 +23,15 @@ const userSlice = createSlice({
       state.userRole = actions.payload
     },
     setLoginDetails: (state, actions)=>{
+      debugger
       if(actions.payload){
-        const {token, id, name, phone,email} = actions.payload
+        const {token, id, name, phone, email, address} = actions.payload
         state.token = token
         state.id = id
         state.name = name
         state.phone = phone
         state.email = email
+        state.address = address
       }
       state.isLoggedIn = !state.isLoggedIn
     }
