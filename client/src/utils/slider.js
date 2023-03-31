@@ -2,12 +2,14 @@ import { Carousel } from 'antd';
 import one from '../images/one.jpg'
 import two from '../images/two.jpg'
 import three from '../images/three.jpg'
+import four from '../images/four.jpg'
+
 
 const Slider = () => {
     const images = [
         one,
-        two,
-        three
+        three,
+        four
     ]
 
     return (

@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Layout from '../../component/layout/layout';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
+import Admin from '../../pages/Auth/adminRoute';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

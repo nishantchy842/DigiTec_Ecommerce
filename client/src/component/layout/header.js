@@ -21,6 +21,7 @@ import { FiLogIn } from 'react-icons/fi'
 import { toast } from 'react-toastify';
 import AddtoCart from '../../utils/addToCartIcon';
 import { deepOrange } from '@mui/material/colors';
+import Admin from '../../pages/Auth/adminRoute';
 
 
 
@@ -34,7 +35,7 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { isLoggedIn, userRole, name } = useSelector(state => state.user)
+  const { isLoggedIn, userRole, name, role } = useSelector(state => state.user)
   const count = useSelector(state => state.addCart.count)
 
 
@@ -180,7 +181,15 @@ const Header = () => {
                   ))
               }
             </Box>
-
+            {
+             isLoggedIn === true ? // firt check login
+             role ===1 ?     // if login true then check role =1
+              userRole==='user'?  
+              <Admin />:    // if role = 1 and userrole = user then show this buttone   if not next
+              <Button variant='contained' onClick={()=> dispatch(assignUserRole('user'),navigate('/'))}>switch to userpanel</Button> 
+              : '' // if role is not equal to one then just show black
+              : '' // if login false then show black
+            }
             {userRole === 'admin' ? '' : <AddtoCart />}
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
