@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,12 @@ const Cards = ({ item, id }) => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    // const [countValue,setCountValue] = useState(0)
     const counts = useSelector(state => state.addCart)
+   const countValue = counts.addToCart.map((c,i)=>{
+        return c.count
+    })
+ console.log(countValue)
     const { userRole } = useSelector(state => state.user)
 
     const respectiveProduct = (item, slug) => {
@@ -68,7 +73,6 @@ const Cards = ({ item, id }) => {
                         }
                         actions={[
                             <FiMinus className=' w-14 h-8 ' key="increase" onClick={() => dispatch(removeProduct(item))} />,
-                            <p className=' w-14 h-8 '>{counts?.addToCart[id]?.count}</p>,
                             <FiPlus className=' w-14 h-8 ' key="decrease" onClick={() => handleCart(item, id)} />,
                             <FiShoppingCart className=' w-14 h-8 ' onClick={() => handleCart(item, id)} />,
                         ]}

@@ -1,5 +1,5 @@
 const express = require('express')
-const {registerController,loginController, testController} = require( '../controller/authController')
+const {registerController,loginController, testController, updateProfile, getUser} = require( '../controller/authController')
 const { requireSignIn, isAdmin } = require('../middleware/authMiddleware')
 
 const router = express.Router() //router object
@@ -7,7 +7,10 @@ const router = express.Router() //router object
 //register || method post
 router.post('/register',registerController)
 router.post('/login',loginController)
-
+//update profile
+router.put('/profile-update/:id', updateProfile)
+//get profile
+router.get('/userdetails/:id', getUser)
 //protected Admin route auth
 router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
     res.status(200).send({ ok: true });

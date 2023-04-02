@@ -75,7 +75,6 @@ const UpdateProduct = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            debugger;
             const productData = new FormData();
             productData.append("name", name);
             productData.append("description", description);

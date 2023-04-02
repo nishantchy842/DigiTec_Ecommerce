@@ -7,7 +7,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../component/layout/layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { increaseCart, decreaseCart, removeProduct, favProduct } from '../Redux/reducer/countSlice';
+import { removeProduct, favProduct } from '../Redux/reducer/countSlice';
 import { toast } from 'react-toastify';
 import { Button } from '@mui/material';
 import MyFavProduct from './myFavProduct';

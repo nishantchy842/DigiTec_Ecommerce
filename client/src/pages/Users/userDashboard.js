@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -8,6 +8,9 @@ import Layout from '../../component/layout/layout';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import Admin from '../../pages/Auth/adminRoute';
+import { Modal } from 'antd';
+import ProfileUpdate from '../../component/Form/profileUpdate';
+import axios from 'axios';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,8 +46,29 @@ function a11yProps(index) {
 }
 
 const UserDashboard = () => {
+  const [visible, setVisible] = useState(false);
+  const [selected, setSelected] = useState(null);
   const [value, setValue] = useState(0);
-  const {name,email,phone,address } = useSelector(state => state.user)
+  const {id } = useSelector(state => state.user)
+  const [name,setName]=useState('')
+  const [email,setEmail]=useState('')
+  const [phone,setPhone]=useState('')
+  const [address,setAddress]=useState('')
+
+const getuser =async()=>{
+  const {data}=await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/userdetails/${id}`)
+  if(data.success===true){
+    setName(data?.user?.name)
+    setEmail(data?.user?.email)
+    setPhone(data?.user?.phone)
+    setAddress(data?.user?.address)
+  }
+}
+useEffect(()=>{
+  getuser()
+  //eslint-disable-next-line
+},[setVisible])
+
 
 
   const handleChange = (event, newValue) => {
@@ -75,7 +99,13 @@ const UserDashboard = () => {
            <p> Phone:{phone}</p>
            <p> Address:{address}</p>
            <div className='flex m-5'>
-           <Button variant="contained">Edit Profile</Button>
+           <Button variant="contained" 
+           onClick={() => {
+            setVisible(true)
+            // setUpdatedName(item.name)
+            // setSelected(item)
+          }}
+           >Edit Profile</Button>
            <Button variant="contained">Change Password</Button>
            </div>
           </div>
@@ -84,6 +114,14 @@ const UserDashboard = () => {
          No order yet
         </TabPanel>
       </Box>
+      <Modal
+        title="Update Profile"
+        onCancel={() => setVisible(false)}
+        open={visible}
+        footer={null}
+      >
+      <ProfileUpdate setVisible={setVisible} />
+      </Modal>
     </Layout>
   );
 }

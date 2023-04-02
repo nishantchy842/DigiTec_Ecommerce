@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -11,8 +11,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
+import { removeProduct, favProduct } from '../Redux/reducer/countSlice';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -24,6 +28,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const MyFavProduct = () => {
   const cartProduct = useSelector(state => state.addCart.addToCart)
+  console.log(cartProduct)
   const total = useSelector(state => state.addCart.total)
   let sum = 0
 
@@ -32,7 +37,9 @@ const MyFavProduct = () => {
 
   })
 
-  console.log(sum)
+
+  const dispatch = useDispatch()
+
   return (
     <Layout>
 
@@ -68,7 +75,18 @@ const MyFavProduct = () => {
                                   </div>
                                 </TableCell>
                                 <TableCell align="right">{item.price}</TableCell>
-                                <TableCell align="right">{item.count}</TableCell>
+                                <TableCell align="right">
+                                  <Button variant="contained"
+                                    onClick={()=>dispatch(removeProduct(item))}
+                                  >
+                                    -
+                                  </Button>
+                                  {item.count}
+                                  <Button variant="contained"
+                                    className='bg-[#ff007f] w-10'
+                                    onClick={()=>dispatch(favProduct(item))}
+                                  >+</Button>
+                                </TableCell>
                                 <TableCell align="right">{item.price * item.count}</TableCell>
                               </TableRow>
                             </TableBody>

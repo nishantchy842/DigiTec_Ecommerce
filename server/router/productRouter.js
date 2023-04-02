@@ -30,8 +30,8 @@ router.get("/get-product/:slug", getSingleProduct);
 //update existing product
 router.put(
     "/update-product/:pid",
-    // requireSignIn,
-    // isAdmin,
+    requireSignIn,
+    isAdmin,
     formidable(),
     updateProduct
   );
