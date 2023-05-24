@@ -43,4 +43,25 @@
 
 - [x] Without login
   - [x] Desplay all product
+
+![screenshot (3)](https://github.com/nishantchy842/DigiTec_Ecommerce/assets/117557072/0f60234b-4524-4ef8-b712-ea9e1343ab2a)
+
+![screenshot (4)](https://github.com/nishantchy842/DigiTec_Ecommerce/assets/117557072/2a0ec251-fd12-461e-aa46-06cbc09228df)
+
+![screenshot (5)](https://github.com/nishantchy842/DigiTec_Ecommerce/assets/117557072/adf9538b-b92a-40d6-9c3a-f505103afea8)
+
+![screenshot (6)](https://github.com/nishantchy842/DigiTec_Ecommerce/assets/117557072/4d015e25-b050-447b-9d96-f7f0bab1133c)
+
+
+
+
+
+
+
+
+
+
+
+
+
    
